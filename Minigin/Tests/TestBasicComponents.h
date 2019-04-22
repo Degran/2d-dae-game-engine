@@ -9,7 +9,7 @@ SCENARIO("Movement tests")
 {
 	GIVEN("A velocity")
 	{
-		kmo::ControlComponent::VelocityData velocityData;
+		kmo::PhysicsInputData velocityData;
 		kmo::PhysicsComponent m_physics(velocityData);
 		velocityData.m_velocity = { 5.f, 0.f };
 		WHEN("No obstacle")

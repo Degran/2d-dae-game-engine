@@ -13,12 +13,14 @@ namespace kmo
 			kmo::Vector m_position;
 		};
 	public:
-		PhysicsComponent(kmo::ControlComponent::VelocityData const& inputVelocity) noexcept
-			: m_inputVelocity(inputVelocity){}
+		PhysicsComponent(kmo::PhysicsInput const& input) noexcept
+			: m_input(input){}
+		PhysicsComponent() noexcept
+			: PhysicsComponent(kmo::NullPhysicsInput::GetInstance()){}
 		void Update(float){}
 		void LateUpdate(float deltaTime)
 		{
-			m_presenceData.m_position += deltaTime * m_inputVelocity.m_velocity;
+			m_presenceData.m_position += deltaTime * m_input.GetVelocity();
 		}
 		inline PhysicalPresenceData const& GetPresenceData() const
 		{
@@ -26,6 +28,6 @@ namespace kmo
 		}
 	private:
 		PhysicalPresenceData m_presenceData;
-		kmo::ControlComponent::VelocityData const& m_inputVelocity;
+		kmo::PhysicsInput const& m_input;
 	};
 }
