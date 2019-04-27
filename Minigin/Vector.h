@@ -1,5 +1,6 @@
-#include <iostream>
 #pragma once
+#include <iostream>
+
 namespace kmo
 {
 	class Vector final
@@ -23,6 +24,10 @@ namespace kmo
 			this->x += rhs.x;
 			this->y += rhs.y;
 			return *this;
+		}
+		inline Vector operator+(Vector const& rhs) const noexcept
+		{
+			return Vector(x + rhs.x, y + rhs.y);
 		}
 	public:
 		float x;
