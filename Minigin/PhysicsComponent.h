@@ -17,9 +17,8 @@ namespace kmo
 			kmo::Box m_hitbox;
 		};
 	public:
-		PhysicsComponent(kmo::PhysicsEngine const& engine, kmo::PhysicsInput const& input) noexcept
-			: m_engine(engine), m_input(input){}
-		PhysicsComponent(kmo::PhysicsEngine const& engine) noexcept
+		PhysicsComponent(kmo::PhysicsEngine& engine, kmo::PhysicsInput const& input) noexcept;
+		PhysicsComponent(kmo::PhysicsEngine& engine) noexcept
 			: PhysicsComponent(engine, kmo::NullPhysicsInput::GetInstance()){}
 		void Update(float){}
 		void LateUpdate(float deltaTime)
@@ -41,6 +40,6 @@ namespace kmo
 	private:
 		PhysicalPresenceData m_presenceData;
 		kmo::PhysicsInput const& m_input;
-		kmo::PhysicsEngine const& m_engine;
+		kmo::PhysicsEngine& m_engine;
 	};
 }

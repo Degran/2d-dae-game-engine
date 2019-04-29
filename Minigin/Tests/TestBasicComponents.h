@@ -12,13 +12,13 @@ template<class EventType>
 class EventChecker final : public kmo::Observer<EventType>
 {
 public:
-	inline void Update(EventType const& event)
+	inline void Observe(EventType const& event) override
 	{
 		m_pLastEvent = std::make_unique<EventType>(event);
 	}
 	inline bool HasEventFired() const noexcept
 	{
-		return !m_pLastEvent;
+		return m_pLastEvent.get() != nullptr;
 	}
 	inline EventType const* GetLastEvent() const noexcept
 	{
@@ -26,7 +26,7 @@ public:
 	}
 	
 public:
-	std::unique_ptr<EventType> m_pLastEvent;
+	std::unique_ptr<EventType> m_pLastEvent{nullptr};
 };
 
 

@@ -16,7 +16,7 @@ namespace kmo
 
 	public:
 		virtual ~AbstractObserver() = default;
-		virtual void Update(EventType const & event) = 0;
+		virtual void Observe(EventType const & event) = 0;
 
 	private:
 		// virtual ObserverDetacher<EventType>& GetDetacher() = 0;

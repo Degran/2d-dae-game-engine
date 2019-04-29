@@ -10,10 +10,10 @@ namespace kmo
 		Box() noexcept
 			: Box({0.f, 0.f}, {0.f, 0.f}) {}
 		Box(kmo::Vector const& firstVector, kmo::Vector const& secondVector) noexcept
-			: m_topLeftPoint( std::min(firstVector.x, secondVector.x)
-				, std::min(firstVector.y, secondVector.y) )
-			, m_bottomRightPoint( std::max(firstVector.x, secondVector.x)
-				, std::max(firstVector.y, secondVector.y) )
+			: m_topLeftPoint( min(firstVector.x, secondVector.x)
+				, min(firstVector.y, secondVector.y) )
+			, m_bottomRightPoint( max(firstVector.x, secondVector.x)
+				, max(firstVector.y, secondVector.y) )
 		{}
 		static Box ConstructBySquareSide(float squareSide) noexcept
 		{
