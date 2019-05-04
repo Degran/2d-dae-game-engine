@@ -23,12 +23,14 @@ namespace kmo
 			m_movingComponents.push_back(&component);
 		}
 
-		inline void Update(float deltaTime)
+		inline void Update(float)
 		{
-			CheckCollisions(deltaTime);
+			CheckCollisions();
 		}
 	private:
-		void CheckCollisions(float deltaTime);
+		void CheckCollisions();
+		void CheckCollisionsOfComponent(PhysicsComponent const& component);
+		void HandleCollisionNotification(PhysicsComponent const& comp1, PhysicsComponent const& comp2);
 	private:
 		std::vector<PhysicsComponent*> m_registeredComponents;
 		std::vector<PhysicsComponent*> m_movingComponents;
