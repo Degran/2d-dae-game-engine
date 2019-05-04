@@ -24,7 +24,10 @@ public:
 	{
 		return m_pLastEvent.get();
 	}
-	
+	inline void Reset() noexcept
+	{
+		m_pLastEvent = nullptr;
+	}
 public:
 	std::unique_ptr<EventType> m_pLastEvent{nullptr};
 };
@@ -65,14 +68,31 @@ SCENARIO("Movement tests")
 			m_obstacle.SetPosition({ distance, 0.f });
 			m_physics.SetHitboxSide(squareSide);
 			m_obstacle.SetHitboxSide(squareSide);
+			m_physics.Update(deltaTime);
+			m_obstacle.Update(deltaTime);
+			engine.Update(deltaTime);
+			m_physics.LateUpdate(deltaTime);
+			m_obstacle.LateUpdate(deltaTime);
 			THEN("Collision")
 			{
+				REQUIRE(checker.HasEventFired());
+			}
+			WHEN("Another tick with velocity")
+			{
+				checker.Reset();
 				m_physics.Update(deltaTime);
 				m_obstacle.Update(deltaTime);
 				engine.Update(deltaTime);
 				m_physics.LateUpdate(deltaTime);
 				m_obstacle.LateUpdate(deltaTime);
-				REQUIRE(checker.HasEventFired());
+				THEN("No collision")
+				{
+					REQUIRE(!checker.HasEventFired());
+				}
+				THEN("Doesn't move")
+				{
+					REQUIRE(false);
+				}
 			}
 		}
 	}
