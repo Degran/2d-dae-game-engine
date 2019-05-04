@@ -29,7 +29,7 @@ namespace kmo
 		}
 	private:
 		void CheckCollisions();
-		void CheckCollisionsOfComponent(PhysicsComponent const& component);
+		void CheckCollisionsOfComponent(PhysicsComponent& component);
 		void HandleCollisionNotification(PhysicsComponent const& comp1, PhysicsComponent const& comp2);
 	private:
 		std::vector<PhysicsComponent*> m_registeredComponents;

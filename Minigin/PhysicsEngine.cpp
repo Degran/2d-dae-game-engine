@@ -12,14 +12,15 @@ void kmo::PhysicsEngine::CheckCollisions()
 	m_movingComponents.clear();
 }
 
-void kmo::PhysicsEngine::CheckCollisionsOfComponent(PhysicsComponent const& component)
+void kmo::PhysicsEngine::CheckCollisionsOfComponent(PhysicsComponent& component)
 {
 	for(PhysicsComponent* other : m_registeredComponents)
 	{
 		if(&component == other){ continue; }
 		if(component.WillOverlapNext(*other))
 		{
-			// TODO: Reject position update
+			// TODO: Reject position update more intelligently, to allow touching
+			component.RejectPositionUpdate();
 			HandleCollisionNotification(component, *other);
 		}
 	}

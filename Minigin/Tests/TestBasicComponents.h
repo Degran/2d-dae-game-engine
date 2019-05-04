@@ -80,6 +80,7 @@ SCENARIO("Movement tests")
 			WHEN("Another tick with velocity")
 			{
 				checker.Reset();
+				kmo::Vector const position{ m_physics.GetPosition() };
 				m_physics.Update(deltaTime);
 				m_obstacle.Update(deltaTime);
 				engine.Update(deltaTime);
@@ -91,7 +92,7 @@ SCENARIO("Movement tests")
 				}
 				THEN("Doesn't move")
 				{
-					REQUIRE(false);
+					REQUIRE(m_physics.GetPosition() == position);
 				}
 			}
 		}
