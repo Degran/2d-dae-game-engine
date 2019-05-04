@@ -69,17 +69,11 @@ namespace kmo
 		{
 			m_nextPresenceBuffer = buffer;
 		}
-		inline bool IsCollision(PhysicsComponent const& other) const noexcept
-		{
-			bool const isNotOverlapping{ !IsOverlapping(other) };
-			bool const willOverlap{ WillOverlapNext(other) };
-			return isNotOverlapping && willOverlap;
-		}
 	private:
 		PhysicalPresenceData m_currentPresenceBuffer;
 		PhysicalPresenceData m_nextPresenceBuffer;
 		PhysicalProperties m_properties;
-		kmo::PhysicsInput const& m_input;
-		kmo::PhysicsEngine& m_engine;
+		PhysicsInput const& m_input;
+		PhysicsEngine& m_engine;
 	};
 }

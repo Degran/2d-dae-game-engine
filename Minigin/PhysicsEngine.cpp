@@ -13,11 +13,15 @@ void kmo::PhysicsEngine::CheckCollisions(float)
 			{
 				continue;
 			}
-			if(moving->IsCollision(*other))
+			if(moving->WillOverlapNext(*other))
 			{
 				// Reject position update
-				// put in the collision queue if not already there
-				m_notifier.Notify(CollisionEvent());
+				// TODO
+				if(!moving->IsOverlapping(*other))
+				{
+					// put in the collision queue if not already there
+					m_notifier.Notify(CollisionEvent());
+				}
 			}
 		}
 	}
