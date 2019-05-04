@@ -29,9 +29,15 @@ namespace kmo
 		{
 			return Vector(x + rhs.x, y + rhs.y);
 		}
+		inline bool IsZero() const noexcept
+		{
+			return abs(x) < ZERO_THRESHOLD && abs(y) < ZERO_THRESHOLD;
+		}
 	public:
 		float x;
 		float y;
+
+		static float constexpr ZERO_THRESHOLD{ 0.00001f };
 	};
 }
 

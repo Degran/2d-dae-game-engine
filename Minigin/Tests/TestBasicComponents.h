@@ -39,6 +39,8 @@ SCENARIO("Movement tests")
 		kmo::PhysicsComponent m_physics(engine, velocityData);
 		velocityData.m_velocity = { 5.f, 0.f };
 		const float deltaTime{ 0.03f };
+		EventChecker<kmo::CollisionEvent> checker;
+		engine.GetNotifier().Attach(checker);
 		WHEN("No obstacle")
 		{
 			kmo::Vector const initialPosition{ m_physics.GetPresenceData().m_position };
@@ -49,22 +51,27 @@ SCENARIO("Movement tests")
 			{
 				REQUIRE(m_physics.GetPresenceData().m_position != initialPosition);
 			}
+			THEN("No collision")
+			{
+				REQUIRE(!checker.HasEventFired());
+			}
 		}
 		WHEN("An obstacle")
 		{
 			kmo::PhysicsComponent m_obstacle(engine);
 			float constexpr distance{ 0.1f };
-			float constexpr squareSide{ distance };
+			float constexpr squareSide{ distance - 0.001f };
 			m_physics.SetPosition({ 0.f, 0.f });
 			m_obstacle.SetPosition({ distance, 0.f });
 			m_physics.SetHitboxSide(squareSide);
 			m_obstacle.SetHitboxSide(squareSide);
 			THEN("Collision")
 			{
-				EventChecker<kmo::CollisionEvent> checker;
-				engine.GetNotifier().Attach(checker);
 				m_physics.Update(deltaTime);
 				m_obstacle.Update(deltaTime);
+				engine.Update(deltaTime);
+				m_physics.LateUpdate(deltaTime);
+				m_obstacle.LateUpdate(deltaTime);
 				REQUIRE(checker.HasEventFired());
 			}
 		}

@@ -86,7 +86,7 @@ namespace kmo
 		{
 			for(auto observer : m_observers)
 			{
-				observer->Update(event);
+				observer->Observe(event);
 			}
 		}
 		inline void Attach(AbstractObserver<EventType>& observer)

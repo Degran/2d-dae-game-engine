@@ -18,8 +18,20 @@ namespace kmo
 		{
 			m_registeredComponents.push_back(&component);
 		}
+		inline void RequestPositionUpdate(PhysicsComponent& component)
+		{
+			m_movingComponents.push_back(&component);
+		}
+
+		inline void Update(float deltaTime)
+		{
+			CheckCollisions(deltaTime);
+		}
+	private:
+		void CheckCollisions(float deltaTime);
 	private:
 		std::vector<PhysicsComponent*> m_registeredComponents;
+		std::vector<PhysicsComponent*> m_movingComponents;
 		Notifier<kmo::CollisionEvent> m_notifier;
 	};
 }
