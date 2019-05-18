@@ -14,16 +14,36 @@ namespace kmo
 		{}
 		inline bool IsOverlappingOrTouches(Interval const& other) const noexcept
 		{
-			return IsABoundInInterval(other) || other.IsABoundInInterval(*this);
+			return IsABoundInClosedInterval(other) || other.IsABoundInClosedInterval(*this);
+		}
+		inline bool IsStrictlyOverlapping(Interval const& other) const noexcept
+		{
+			return IsABoundInOpenInterval(other) || other.IsABoundInOpenInterval(*this);
 		}
 		inline bool IsInClosedInterval(float value) const noexcept
 		{
 			return m_lowerBound <= value && value <= m_upperBound;
 		}
+		inline bool IsInOpenInterval(float value) const noexcept
+		{
+			return m_lowerBound < value && value < m_upperBound;
+		}
+		inline bool IsTouchingInterval(float value) const noexcept
+		{
+			return value == m_lowerBound || m_upperBound == value;
+		}
+		inline bool IsTouchingInterval(Interval const& other) const noexcept
+		{
+			return other.m_upperBound == m_lowerBound || m_upperBound == other.m_lowerBound;
+		}
 	private:
-		inline bool IsABoundInInterval(Interval const& other) const noexcept
+		inline bool IsABoundInClosedInterval(Interval const& other) const noexcept
 		{
 			return other.IsInClosedInterval(m_lowerBound) || other.IsInClosedInterval(m_upperBound);
+		}
+		inline bool IsABoundInOpenInterval(Interval const& other) const noexcept
+		{
+			return other.IsInOpenInterval(m_lowerBound) || other.IsInOpenInterval(m_upperBound);
 		}
 	private:
 		float m_lowerBound;
@@ -55,6 +75,12 @@ namespace kmo
 		{
 			bool const isXOverlapping{ ConstructXInterval().IsOverlappingOrTouches(other.ConstructXInterval()) };
 			bool const isYOverlapping{ ConstructYInterval().IsOverlappingOrTouches(other.ConstructYInterval()) };
+			return isXOverlapping && isYOverlapping;
+		}
+		inline bool IsStrictlyOverlapping(Box const& other) const noexcept
+		{
+			bool const isXOverlapping{ ConstructXInterval().IsStrictlyOverlapping(other.ConstructXInterval()) };
+			bool const isYOverlapping{ ConstructYInterval().IsStrictlyOverlapping(other.ConstructYInterval()) };
 			return isXOverlapping && isYOverlapping;
 		}
 		inline Interval ConstructXInterval() const noexcept

@@ -49,7 +49,7 @@ namespace kmo
 		{
 			return std::sqrt(GetSquaredMagnitude());
 		}
-		inline Vector GetNormalized() const throw(NormalizedZeroVectorException)
+		inline Vector GetNormalized() const 
 		{
 			if(IsZero())
 			{

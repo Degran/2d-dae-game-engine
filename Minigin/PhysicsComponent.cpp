@@ -13,6 +13,6 @@ void kmo::PhysicsComponent::Update(float deltaTime)
 	{
 		return;
 	}
-	m_nextPresenceBuffer.m_position += deltaTime * m_input.GetVelocity();
+	m_nextPresenceBuffer.m_position += deltaTime * GetVelocity();
 	m_engine.RequestPositionUpdate(*this);
 }

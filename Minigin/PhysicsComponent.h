@@ -37,6 +37,10 @@ namespace kmo
 		{
 			return m_currentPresenceBuffer.m_position;
 		}
+		inline Vector const& GetVelocity() const
+		{
+			return m_input.GetVelocity();
+		}
 		inline Box GetCurrentHitBox() const noexcept
 		{
 			return m_properties.m_hitbox.ConstructBoxTranslatedByVector(GetPosition());
@@ -57,13 +61,19 @@ namespace kmo
 	private:
 		inline bool WillOverlapNext(PhysicsComponent const & other) const noexcept
 		{
-			Box const thisNextHitbox{ m_properties.m_hitbox.ConstructBoxTranslatedByVector(m_nextPresenceBuffer.m_position) };
-			Box const otherNextHitbox{ other.m_properties.m_hitbox.ConstructBoxTranslatedByVector(other.m_nextPresenceBuffer.m_position) };
-			return thisNextHitbox.IsOverlapping(otherNextHitbox);
+			return GetNextHitbox().IsOverlapping(other.GetNextHitbox());
+		}
+		inline bool WillStrictlyOverlapNext(PhysicsComponent const & other) const noexcept
+		{
+			return GetNextHitbox().IsStrictlyOverlapping(other.GetNextHitbox());
 		}
 		inline void RejectPositionUpdate() noexcept
 		{
 			m_nextPresenceBuffer = m_currentPresenceBuffer;
+		}
+		inline Box GetNextHitbox() const noexcept
+		{
+			return m_properties.m_hitbox.ConstructBoxTranslatedByVector(m_nextPresenceBuffer.m_position);
 		}
 		inline void RejectPositionUpdate(PhysicalPresenceData buffer) noexcept
 		{
