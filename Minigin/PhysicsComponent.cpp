@@ -9,10 +9,12 @@ kmo::PhysicsComponent::PhysicsComponent(kmo::PhysicsEngine& engine, kmo::Physics
 
 void kmo::PhysicsComponent::Update(float deltaTime)
 {
-	if(m_input.GetVelocity().IsZero())
+	if (m_input.GetVelocity().IsZero())
 	{
 		return;
 	}
-	m_nextPresenceBuffer.m_position += deltaTime * GetVelocity();
+	// 	m_nextPresenceBuffer.m_position += deltaTime * GetVelocity();
+	Vector const movementStep{ deltaTime * GetVelocity().x, deltaTime * GetVelocity().y };
+	m_nextPresenceBuffer.m_position += movementStep;
 	m_engine.RequestPositionUpdate(*this);
 }

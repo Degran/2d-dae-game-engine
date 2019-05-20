@@ -58,6 +58,8 @@ namespace kmo
 		void RejectPositionUpdates(PhysicsComponent& comp1, PhysicsComponent& comp2);
 		void HandleCollisionNotification(PhysicsComponent const& comp1, PhysicsComponent const& comp2);
 		kmo::Vector GetCollisionUnitVector(PhysicsComponent const& comp1, PhysicsComponent const& comp2) const;
+		bool IsHorizontalCollision(PhysicsComponent const & comp1, PhysicsComponent const & comp2) const;
+		bool IsVerticalCollision(PhysicsComponent const & comp1, PhysicsComponent const & comp2) const;
 	private:
 		std::vector<PhysicsComponent*> m_registeredComponents;
 		std::vector<PhysicsComponent*> m_movingComponents;

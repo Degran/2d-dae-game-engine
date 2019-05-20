@@ -40,7 +40,7 @@ SCENARIO("Movement tests")
 		kmo::PhysicsEngine engine;
 		kmo::PhysicsInputData velocityData;
 		kmo::PhysicsComponent m_physics(engine, velocityData);
-		velocityData.m_velocity = { 5.f, 0.f };
+		velocityData.m_velocity = { 1.f, 0.f };
 		const float deltaTime{ 0.03f };
 		EventChecker<kmo::CollisionEvent> checker;
 		engine.GetNotifier().Attach(checker);

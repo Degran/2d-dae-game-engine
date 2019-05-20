@@ -24,9 +24,9 @@ namespace kmo
 		{
 			return m_lowerBound <= value && value <= m_upperBound;
 		}
-		inline bool IsInOpenInterval(float value) const noexcept
+		inline constexpr bool IsInOpenInterval(float value) const noexcept
 		{
-			return m_lowerBound < value && value < m_upperBound;
+			return m_lowerBound + STRICT_OVERLAP_MARGIN < value && value < m_upperBound - STRICT_OVERLAP_MARGIN;
 		}
 		inline bool IsTouchingInterval(float value) const noexcept
 		{
@@ -48,6 +48,7 @@ namespace kmo
 	private:
 		float m_lowerBound;
 		float m_upperBound;
+		static constexpr float STRICT_OVERLAP_MARGIN{ .0f };
 	};
 
 

@@ -15,9 +15,19 @@ namespace kmo
 	{
 	public:
 		Vector() noexcept
-			: Vector(0.f, 0.f){}
+			: Vector(0.f, 0.f) {}
 		Vector(float newX, float newY) noexcept
 			: x(newX), y(newY) {}
+		static  Vector ConstructSignedXUnitVector(float directingValue)
+		{
+			float const sign{ directingValue / std::abs(directingValue) };
+			return { sign, 0.0f };
+		}
+		static  Vector ConstructSignedYUnitVector(float directingValue)
+		{
+			float const sign{ directingValue / std::abs(directingValue) };
+			return { 0.0f, sign };
+		}
 
 		inline bool operator==(Vector const& rhs) const noexcept
 		{
@@ -36,6 +46,14 @@ namespace kmo
 		inline Vector operator+(Vector const& rhs) const noexcept
 		{
 			return Vector(x + rhs.x, y + rhs.y);
+		}
+		inline Vector operator-() const noexcept
+		{
+			return { -x, -y };
+		}
+		inline Vector operator-(Vector const& rhs) const noexcept
+		{
+			return operator+(-rhs);
 		}
 		inline bool IsZero() const noexcept
 		{
@@ -66,6 +84,12 @@ namespace kmo
 			Vector const normalized{ other.GetNormalized() };
 			float const length{ Dot(normalized) };
 			return length * normalized;
+		}
+		inline float PositiveProjectionLengthAlongVector(Vector const& other) const
+		{
+			Vector const normalized{ other.GetNormalized() };
+			float const length{ Dot(normalized) };
+			return max(0.0f, length);
 		}
 	public:
 		float x;
