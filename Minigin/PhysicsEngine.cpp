@@ -61,7 +61,9 @@ void kmo::PhysicsEngine::RejectPositionUpdates(PhysicsComponent& comp1, PhysicsC
 	PhysicsComponent::PhysicalPresenceData comp2OriginBuffer{ comp2.m_currentPresenceBuffer };
 	Vector const displacementVector{ comp2OriginBuffer.m_position - comp1OriginBuffer.m_position};
 	Vector const collisionDistanceVector{ displacementVector.ProjectOntoVector(comp1CollisionVector) };
-	float const distance{collisionDistanceVector.GetMagnitude()};
+	float const comp1HalfHitbox{ comp1.GetCurrentHitBox().GetDimensionsVector().ProjectOntoVector(comp1CollisionVector).GetMagnitude() / 2.0f };
+	float const comp2HalfHitbox{ comp2.GetCurrentHitBox().GetDimensionsVector().ProjectOntoVector(comp2CollisionVector).GetMagnitude() / 2.0f };
+	float const distance{collisionDistanceVector.GetMagnitude() - comp1HalfHitbox - comp2HalfHitbox};
 	if(0.0f < comp1MovementWeight)
 	{
 		Vector const parallelVelocityComponent{ comp1CurrentEffectiveVelocity.ProjectOntoVector(comp1CollisionVector) };

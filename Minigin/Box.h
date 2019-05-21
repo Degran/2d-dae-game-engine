@@ -36,6 +36,10 @@ namespace kmo
 		{
 			return other.m_upperBound == m_lowerBound || m_upperBound == other.m_lowerBound;
 		}
+		inline float GetLength() const noexcept
+		{
+			return m_upperBound - m_lowerBound;
+		}
 	private:
 		inline bool IsABoundInClosedInterval(Interval const& other) const noexcept
 		{
@@ -91,6 +95,18 @@ namespace kmo
 		inline Interval ConstructYInterval() const noexcept
 		{
 			return Interval(m_topLeftPoint.y, m_bottomRightPoint.y);
+		}
+		inline Vector GetDimensionsVector() const noexcept
+		{
+			return { GetWidth(), GetHeight() };
+		}
+		inline float GetWidth() const noexcept
+		{
+			return ConstructXInterval().GetLength();
+		}
+		inline float GetHeight() const noexcept
+		{
+			return ConstructYInterval().GetLength();
 		}
 
 	private:
