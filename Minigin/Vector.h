@@ -67,6 +67,10 @@ namespace kmo
 		{
 			return std::sqrt(GetSquaredMagnitude());
 		}
+		inline float GetL1Magnitude() const
+		{
+			return abs(x) + abs(y);
+		}
 		inline Vector GetNormalized() const 
 		{
 			if(IsZero())
