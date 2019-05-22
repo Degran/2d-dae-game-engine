@@ -18,7 +18,8 @@ namespace kmo
 		}
 		inline bool IsStrictlyOverlapping(Interval const& other) const noexcept
 		{
-			return IsABoundInOpenInterval(other) || other.IsABoundInOpenInterval(*this);
+// 			return IsABoundInOpenInterval(other) || other.IsABoundInOpenInterval(*this);
+			return IsOverlappingOrTouches(other) && !IsTouchingInterval(other);
 		}
 		inline bool IsInClosedInterval(float value) const noexcept
 		{
@@ -34,7 +35,7 @@ namespace kmo
 		}
 		inline bool IsTouchingInterval(Interval const& other) const noexcept
 		{
-			return other.m_upperBound == m_lowerBound || m_upperBound == other.m_lowerBound;
+			return abs(other.m_upperBound - m_lowerBound) < STRICT_OVERLAP_MARGIN || abs(m_upperBound - other.m_lowerBound) < STRICT_OVERLAP_MARGIN;
 		}
 		inline float GetLength() const noexcept
 		{
@@ -49,11 +50,12 @@ namespace kmo
 		{
 			return other.IsInOpenInterval(m_lowerBound) || other.IsInOpenInterval(m_upperBound);
 		}
+	public:
+		static constexpr float STRICT_OVERLAP_MARGIN{ .0001f };
 	private:
 		float m_lowerBound;
 		float m_upperBound;
-		static constexpr float STRICT_OVERLAP_MARGIN{ .0f };
-	};
+		};
 
 
 	class Box final

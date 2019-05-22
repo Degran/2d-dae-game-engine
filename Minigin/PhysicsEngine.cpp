@@ -2,6 +2,7 @@
 #include "PhysicsEngine.h"
 
 #include "PhysicsComponent.h"
+#include "Box.h"
 
 void kmo::PhysicsEngine::CheckCollisions()
 {
@@ -63,12 +64,13 @@ void kmo::PhysicsEngine::RejectPositionUpdates(PhysicsComponent& comp1, PhysicsC
 	Vector const collisionDistanceVector{ displacementVector.ProjectOntoVector(comp1CollisionVector) };
 	float const comp1HalfHitbox{ comp1.GetCurrentHitBox().GetDimensionsVector().ProjectOntoVector(comp1CollisionVector).GetL1Magnitude() / 2.0f };
 	float const comp2HalfHitbox{ comp2.GetCurrentHitBox().GetDimensionsVector().ProjectOntoVector(comp2CollisionVector).GetL1Magnitude() / 2.0f };
-	float const distance{collisionDistanceVector.GetMagnitude() - comp1HalfHitbox - comp2HalfHitbox};
+	float const perfectFloatDistance{ collisionDistanceVector.GetMagnitude() - comp1HalfHitbox - comp2HalfHitbox };
+	float const distanceToCover{perfectFloatDistance + Interval::STRICT_OVERLAP_MARGIN / 2.0f};
 	if(0.0f < comp1MovementWeight)
 	{
 		Vector const parallelVelocityComponent{ comp1CurrentEffectiveVelocity.ProjectOntoVector(comp1CollisionVector) };
 		Vector const orthogonalVelocityComponent{ comp1CurrentEffectiveVelocity - parallelVelocityComponent };
-		Vector const scaledParallel{ comp1MovementWeight * distance * comp1CollisionVector};
+		Vector const scaledParallel{ comp1MovementWeight * distanceToCover * comp1CollisionVector};
 		Vector const scaledTotal{ scaledParallel + orthogonalVelocityComponent };
 		PhysicsComponent::PhysicalPresenceData comp1NextBuffer{ comp1OriginBuffer };
 		comp1NextBuffer.m_position = comp1OriginBuffer.m_position + scaledTotal;
@@ -78,7 +80,7 @@ void kmo::PhysicsEngine::RejectPositionUpdates(PhysicsComponent& comp1, PhysicsC
 	{
 		Vector const parallelVelocityComponent{ comp2CurrentEffectiveVelocity.ProjectOntoVector(comp2CollisionVector) };
 		Vector const orthogonalVelocityComponent{ comp2CurrentEffectiveVelocity - parallelVelocityComponent };
-		Vector const scaledParallel{ comp1MovementWeight * distance * comp2CollisionVector};
+		Vector const scaledParallel{ comp1MovementWeight * distanceToCover * comp2CollisionVector};
 		Vector const scaledTotal{ scaledParallel + orthogonalVelocityComponent };
 		PhysicsComponent::PhysicalPresenceData comp2NextBuffer{ comp2OriginBuffer };
 		comp2NextBuffer.m_position = comp2OriginBuffer.m_position + scaledTotal;

@@ -31,7 +31,8 @@ namespace kmo
 
 		inline bool operator==(Vector const& rhs) const noexcept
 		{
-			return this->x == rhs.x && this->y == rhs.y;
+// 			return this->x == rhs.x && this->y == rhs.y;
+			return (*this - rhs).IsZero();
 		}
 		inline bool operator!=(Vector const& rhs) const noexcept
 		{

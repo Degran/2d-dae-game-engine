@@ -62,10 +62,10 @@ SCENARIO("Movement tests")
 		WHEN("An obstacle")
 		{
 			kmo::PhysicsComponent m_obstacle(engine);
-			float constexpr distance{ 0.1f };
-			float constexpr squareSide{ distance - 0.001f };
-			m_physics.SetPosition({ 0.f, 0.f });
-			m_obstacle.SetPosition({ distance, 0.f });
+			float constexpr finalDistance{ 0.1f };
+			float constexpr squareSide{ finalDistance };
+			m_physics.SetPosition({ -0.01f, 0.f });
+			m_obstacle.SetPosition({ finalDistance , 0.f });
 			m_physics.SetHitboxSide(squareSide);
 			m_obstacle.SetHitboxSide(squareSide);
 			m_physics.Update(deltaTime);
