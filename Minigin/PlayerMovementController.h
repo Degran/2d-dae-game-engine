@@ -26,11 +26,27 @@ namespace kmo
 	class PlayerMovementController final: public Component
 	{
 	public:
+		inline std::unique_ptr<InputCommand> ConstructMoveRightCommand()
+		{
+			Vector const velocityToSet{ m_speed, 0.0f };
+			return std::make_unique<MovementInputCommand>(m_velocityData, velocityToSet);
+		}
+		inline std::unique_ptr<InputCommand> ConstructMoveDownCommand()
+		{
+			Vector const velocityToSet{ 0.0f, m_speed };
+			return std::make_unique<MovementInputCommand>(m_velocityData, velocityToSet);
+		}
 		inline std::unique_ptr<InputCommand> ConstructMoveLeftCommand()
 		{
 			Vector const velocityToSet{ -m_speed, 0.0f };
 			return std::make_unique<MovementInputCommand>(m_velocityData, velocityToSet);
 		}
+		inline std::unique_ptr<InputCommand> ConstructMoveUpCommand()
+		{
+			Vector const velocityToSet{ 0.f, -m_speed };
+			return std::make_unique<MovementInputCommand>(m_velocityData, velocityToSet);
+		}
+
 		inline PhysicsInputData const& GetPhysicsInputData() const
 		{
 			return m_velocityData;

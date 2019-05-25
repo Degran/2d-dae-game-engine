@@ -29,11 +29,12 @@ SCENARIO("Input handling events")
 	GIVEN("An InputManager and player")
 	{
 		std::unique_ptr<MockInputSource> tempSource{ std::make_unique<MockInputSource>() };
-		MockInputSource& sourceRef = *tempSource;
+		MockInputSource& sourceRef{ *tempSource };
 		kmo::PlayerMovementController controller;
 		const kmo::InputEvent mockLeft;
 		std::unique_ptr<kmo::StandardInputState> tempDefaultState{ std::make_unique<kmo::StandardInputState>() };
 		tempDefaultState->AssignCommandToInput(controller.ConstructMoveLeftCommand(), mockLeft);
+		kmo::StandardInputState& stateRef{ *tempDefaultState };
 		kmo::InputManager manager(std::move(tempDefaultState));
 		manager.SetInputSource(std::move(tempSource));
 		const float deltaTime{ 0.03f };
@@ -64,6 +65,29 @@ SCENARIO("Input handling events")
 				THEN("No velocity")
 				{
 					REQUIRE(controller.GetPhysicsInputData().GetVelocity().IsZero());
+				}
+			}
+		}
+		GIVEN("Second player")
+		{
+			kmo::PlayerMovementController controllerPlayer2;
+			kmo::InputEvent mockUp2;
+			mockUp2.m_deviceId = 1;
+			mockUp2.m_keyCode = 0x0001;
+			stateRef.AssignCommandToInput(controllerPlayer2.ConstructMoveUpCommand(), mockUp2);
+			WHEN("Left arrow one and up arrow two")
+			{
+				sourceRef.AddEvent(mockLeft);
+				sourceRef.AddEvent(mockUp2);
+				manager.ProcessInput();
+				controller.Update(deltaTime);
+				controllerPlayer2.Update(deltaTime);
+				THEN("Expected velocities")
+				{
+					kmo::Vector const expectedPlayer1Velocity{ -50.f, 0.f };
+					kmo::Vector const expectedPlayer2Velocity{ 0.f, -50.f };
+					REQUIRE(controller.GetPhysicsInputData().GetVelocity() == expectedPlayer1Velocity);
+					REQUIRE(controllerPlayer2.GetPhysicsInputData().GetVelocity() == expectedPlayer2Velocity);
 				}
 			}
 		}
