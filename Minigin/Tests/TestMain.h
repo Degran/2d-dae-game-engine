@@ -4,6 +4,7 @@
 #include "../catch.hpp"
 
 #include "TestBasicComponents.h"
+#include "TestInputHandling.h"
 
 namespace Catch {
 	std::ostream& cout() {
