@@ -132,6 +132,11 @@ namespace kmo
 	class InputManager final
 	{
 	public:
+		InputManager(std::unique_ptr<InputState> startState)
+			: m_currentState(std::ref(*startState))
+		{
+			AddInputState(std::move(startState));
+		}
 		InputManager()
 			: m_currentState(NullInputState::GetInstance()){}
 		inline void ProcessInput() {
@@ -150,8 +155,13 @@ namespace kmo
 		{
 			m_inputSource = std::move(inputSource);
 		}
+		inline void AddInputState(std::unique_ptr<InputState> state)
+		{
+			m_states.push_back(std::move(state));
+		}
 	private:
 		std::unique_ptr<InputSource> m_inputSource;
 		std::reference_wrapper<InputState> m_currentState;
+		std::vector<std::unique_ptr<InputState> > m_states;
 	};
 }

@@ -28,14 +28,14 @@ SCENARIO("Input handling events")
 {
 	GIVEN("An InputManager and player")
 	{
-		kmo::InputManager manager;
 		std::unique_ptr<MockInputSource> tempSource{ std::make_unique<MockInputSource>() };
 		MockInputSource& sourceRef = *tempSource;
-		manager.SetInputSource(std::move(tempSource));
 		kmo::PlayerMovementController controller;
 		const kmo::InputEvent mockLeft;
-		kmo::StandardInputState defaultState;
-		defaultState.AssignCommandToInput(controller.ConstructMoveLeftCommand(), mockLeft);
+		std::unique_ptr<kmo::StandardInputState> tempDefaultState{ std::make_unique<kmo::StandardInputState>() };
+		tempDefaultState->AssignCommandToInput(controller.ConstructMoveLeftCommand(), mockLeft);
+		kmo::InputManager manager(std::move(tempDefaultState));
+		manager.SetInputSource(std::move(tempSource));
 		const float deltaTime{ 0.03f };
 		WHEN("Nothing")
 		{
