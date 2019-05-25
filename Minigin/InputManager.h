@@ -38,23 +38,36 @@ namespace kmo
 			CONTROLLER,
 			KEYBOARD
 		};
+		enum class InteractionType
+		{
+			KEY_UP,
+			KEY_PRESSED,
+			KEY_DOWN
+		};
 		inline bool operator<(InputEvent const& rhs) const
 		{
-			if(m_type == rhs.m_type)
+			if(m_deviceType == rhs.m_deviceType)
 			{
-				if(m_deviceId == rhs.m_deviceId)
+				if(m_interactionType == rhs.m_interactionType)
 				{
-					return m_keyCode < rhs.m_keyCode;
-				}else{
-					return m_deviceId < rhs.m_deviceId;
+					if(m_deviceId == rhs.m_deviceId)
+					{
+						return m_keyCode < rhs.m_keyCode;
+					}else{
+						return m_deviceId < rhs.m_deviceId;
+					}		
+				}else
+				{
+					return m_interactionType < rhs.m_interactionType;
 				}
 			}else
 			{
-				return m_type == DeviceType::CONTROLLER;
+				return m_deviceType == DeviceType::CONTROLLER;
 			}
 		}
 	public:
-		DeviceType m_type{ DeviceType::CONTROLLER };
+		DeviceType m_deviceType{ DeviceType::CONTROLLER };
+		InteractionType m_interactionType{ InteractionType::KEY_UP };
 		char m_deviceId{ 0 };
 		int m_keyCode{ 0x0000 };
 	};
