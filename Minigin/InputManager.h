@@ -38,9 +38,6 @@ namespace kmo
 			CONTROLLER,
 			KEYBOARD
 		};
-		DeviceType m_type{ DeviceType::CONTROLLER };
-		char m_deviceId{ 0 };
-		int m_keyCode{ 0x0000 };
 		inline bool operator<(InputEvent const& rhs) const
 		{
 			if(m_type == rhs.m_type)
@@ -56,6 +53,10 @@ namespace kmo
 				return m_type == DeviceType::CONTROLLER;
 			}
 		}
+	public:
+		DeviceType m_type{ DeviceType::CONTROLLER };
+		char m_deviceId{ 0 };
+		int m_keyCode{ 0x0000 };
 	};
 
 	class InputSource

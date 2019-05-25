@@ -29,8 +29,9 @@ SCENARIO("Input handling events")
 	GIVEN("An InputManager and player")
 	{
 		kmo::InputManager manager;
-		std::unique_ptr<kmo::InputSource> source{ std::make_unique<MockInputSource>() };
-		manager.SetInputSource(std::move(source));
+		std::unique_ptr<MockInputSource> tempSource{ std::make_unique<MockInputSource>() };
+		MockInputSource& sourceRef = *tempSource;
+		manager.SetInputSource(std::move(tempSource));
 		kmo::PlayerMovementController controller;
 		const kmo::InputEvent mockLeft;
 		kmo::StandardInputState defaultState;
@@ -43,6 +44,16 @@ SCENARIO("Input handling events")
 			THEN("No velocity")
 			{
 				REQUIRE(controller.GetPhysicsInputData().GetVelocity().IsZero());
+			}
+		}
+		WHEN("Left arrow")
+		{
+			sourceRef.AddEvent(mockLeft);
+			manager.ProcessInput();
+			controller.Update(deltaTime);
+			THEN("Velocity")
+			{
+				REQUIRE(!controller.GetPhysicsInputData().GetVelocity().IsZero());
 			}
 		}
 	}
