@@ -144,13 +144,6 @@ namespace kmo
 			ProcessAllInputsFromSource();
 			m_currentState = std::ref(m_currentState.get().LateUpdate());
 		}
-		inline void ProcessAllInputsFromSource() const
-		{
-			for(InputEvent const input : m_inputSource->GetInputEvents())
-			{
-				m_currentState.get().HandleInput(input);
-			}
-		}
 		inline void SetInputSource(std::unique_ptr<InputSource> inputSource)
 		{
 			m_inputSource = std::move(inputSource);
@@ -158,6 +151,14 @@ namespace kmo
 		inline void AddInputState(std::unique_ptr<InputState> state)
 		{
 			m_states.push_back(std::move(state));
+		}
+	private:
+		inline void ProcessAllInputsFromSource() const
+		{
+			for(InputEvent const input : m_inputSource->GetInputEvents())
+			{
+				m_currentState.get().HandleInput(input);
+			}
 		}
 	private:
 		std::unique_ptr<InputSource> m_inputSource;

@@ -55,6 +55,17 @@ SCENARIO("Input handling events")
 			{
 				REQUIRE(!controller.GetPhysicsInputData().GetVelocity().IsZero());
 			}
+			WHEN("Next tick nothing")
+			{
+				controller.LateUpdate(deltaTime);
+				sourceRef.ClearEvents();
+				manager.ProcessInput();
+				controller.Update(deltaTime);
+				THEN("No velocity")
+				{
+					REQUIRE(controller.GetPhysicsInputData().GetVelocity().IsZero());
+				}
+			}
 		}
 	}
 }
