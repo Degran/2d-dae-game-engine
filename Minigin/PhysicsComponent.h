@@ -2,13 +2,14 @@
 #include "Vector.h"
 #include "Box.H"
 
+#include "Component.h"
 #include "ControlComponent.h"
 
 namespace kmo
 {
 	class PhysicsEngine;
 	
-	class PhysicsComponent final
+	class PhysicsComponent final: public Component
 	{
 		friend PhysicsEngine;
 	public:
@@ -24,8 +25,8 @@ namespace kmo
 		PhysicsComponent(kmo::PhysicsEngine& engine, kmo::PhysicsInput const& input) noexcept;
 		PhysicsComponent(kmo::PhysicsEngine& engine) noexcept
 			: PhysicsComponent(engine, kmo::NullPhysicsInput::GetInstance()){}
-		void Update(float deltaTime);
-		void LateUpdate(float)
+		void Update(float deltaTime) override;
+		inline void LateUpdate(float) override
 		{
 			m_currentPresenceBuffer = m_nextPresenceBuffer;
 		}

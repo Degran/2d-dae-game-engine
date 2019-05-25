@@ -1,13 +1,12 @@
 #pragma once
-
-namespace km
+namespace kmo
 {
-	class Component abstract
+	class Component
 	{
 	public:
-		Component() = delete;
-		virtual ~Component() = delete;
+		virtual ~Component() = default;
 
-		virtual void Update() = 0;
+		virtual void Update(float deltaTime) = 0;
+		virtual void LateUpdate(float deltaTime) = 0;
 	};
 }
