@@ -90,6 +90,37 @@ SCENARIO("Input handling events")
 					REQUIRE(controllerPlayer2.GetPhysicsInputData().GetVelocity() == expectedPlayer2Velocity);
 				}
 			}
+			GIVEN("An assigned pause toggle button")
+			{
+				kmo::InputEvent mockPause;
+				mockPause.m_keyCode = 0x0002;
+				std::unique_ptr<kmo::StandardInputState> tempPauseState{ std::make_unique<kmo::StandardInputState>() };
+				kmo::StandardInputState& pauseRef{ *tempPauseState };
+				stateRef.AssignCommandToInput(std::make_unique<kmo::StateTransitionInputCommand>(pauseRef), mockPause);
+				pauseRef.AssignCommandToInput(std::make_unique<kmo::StateTransitionInputCommand>(stateRef), mockPause);
+				manager.AddInputState(std::move(tempPauseState));
+				WHEN("Pause pressed")
+				{
+					sourceRef.AddEvent(mockPause);
+					manager.ProcessInput();
+					controller.Update(deltaTime);
+					controllerPlayer2.Update(deltaTime);
+					controller.LateUpdate(deltaTime);
+					controllerPlayer2.LateUpdate(deltaTime);
+					WHEN("Then left arrow one pressed")
+					{
+						sourceRef.ClearEvents();
+						sourceRef.AddEvent(mockLeft);
+						manager.ProcessInput();
+						controller.Update(deltaTime);
+						controllerPlayer2.Update(deltaTime);
+						THEN("No velocity")
+						{
+							REQUIRE(controller.GetPhysicsInputData().GetVelocity().IsZero());
+						}
+					}
+				}
+			}
 		}
 	}
 }

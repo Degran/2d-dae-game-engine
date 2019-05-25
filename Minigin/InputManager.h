@@ -88,6 +88,19 @@ namespace kmo
 		virtual InputState& ExecuteFromStateToState(InputState& currentState) = 0;
 	};
 
+	class StateTransitionInputCommand final : public InputCommand
+	{
+	public:
+		StateTransitionInputCommand(InputState& targetState)
+			: m_targetState(targetState){}
+		InputState& ExecuteFromStateToState(InputState&) override
+		{
+			return m_targetState;
+		}
+	private:
+		InputState& m_targetState;
+	};
+
 	class InputState: public State
 	{
 	public:
