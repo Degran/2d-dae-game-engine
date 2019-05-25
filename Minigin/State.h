@@ -16,8 +16,11 @@ namespace kmo
 		// Problem : more difficult to work with inheritance then
 		virtual State& GoToState(State& state)
 		{
-			Exit();
-			state.Enter();
+			if(this != &state)
+			{
+				Exit();
+				state.Enter();
+			}
 			return state;
 		}
 

@@ -96,6 +96,12 @@
     <ClInclude Include="Tests\TestInputHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerMovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
