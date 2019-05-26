@@ -11,7 +11,8 @@
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+// 	std::cerr << "Something error-y" << std::endl;
 	kmo::Game digDug;
-	digdug::FygarFactory factory{ digDug.m_sceneManager };
+	digdug::FygarFactory factory{ digDug };
+	factory.CreateFygar();
 }

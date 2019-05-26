@@ -58,8 +58,8 @@ namespace kmo
 		}
 		inline void AttachComponent(std::unique_ptr<Component> component)
 		{
-			m_components.push_back(std::move(component));
 			component->AttachTo(*this);
+			m_components.push_back(std::move(component));
 		}
 		template<class T>
 		inline std::vector<T*> GetAllComponentsOfType()
