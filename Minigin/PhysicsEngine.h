@@ -8,6 +8,12 @@ namespace kmo
 	class PhysicsComponent;
 	class CollisionEvent final{};
 
+	struct ObjectSnapshot final
+	{
+		Vector m_position;
+		char m_typeCode;
+	};
+
 	class PhysicsEngine final
 	{
 	public:
@@ -37,6 +43,12 @@ namespace kmo
 		inline void Update(float)
 		{
 			CheckCollisions();
+			ClearSnapshotCache();
+		}
+		std::shared_ptr<std::vector<ObjectSnapshot> > GetWorldSnapshot();
+		inline void ClearSnapshotCache()
+		{
+			m_snapshotCache = std::shared_ptr<std::vector<ObjectSnapshot> >(nullptr);
 		}
 	private:
 		void CheckCollisions();
@@ -51,5 +63,6 @@ namespace kmo
 		std::vector<PhysicsComponent*> m_movingComponents;
 		std::vector<PhysicsComponent*> m_componentsToRemove;
 		Notifier<kmo::CollisionEvent> m_notifier;
+		std::shared_ptr<std::vector<ObjectSnapshot> > m_snapshotCache;
 	};
 }
