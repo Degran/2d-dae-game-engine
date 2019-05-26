@@ -21,6 +21,9 @@
     <ClInclude Include="FygarFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

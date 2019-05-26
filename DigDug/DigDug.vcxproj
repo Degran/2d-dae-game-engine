@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="FygarFactory.h" />
+    <ClInclude Include="ObjectType.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
