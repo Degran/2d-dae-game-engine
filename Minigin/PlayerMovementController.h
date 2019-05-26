@@ -56,6 +56,7 @@ namespace kmo
 		{
 			m_velocityData.m_velocity = { 0.f, 0.f };
 		}
+		inline void AttachTo(GameObject&) override{}
 	private:
 		float m_speed{ 50.0f };
 		PhysicsInputData m_velocityData;

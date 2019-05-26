@@ -59,6 +59,10 @@ namespace kmo
 		{
 			return GetCurrentHitBox().IsOverlapping(other.GetCurrentHitBox());
 		}
+		inline void AttachTo(GameObject& parent) override
+		{
+			m_parent = std::ref(parent);
+		}
 	private:
 		inline bool WillOverlapNext(PhysicsComponent const & other) const noexcept
 		{
@@ -86,5 +90,6 @@ namespace kmo
 		PhysicalProperties m_properties;
 		PhysicsInput const& m_input;
 		PhysicsEngine& m_engine;
+		std::reference_wrapper<kmo::GameObject> m_parent;
 	};
 }

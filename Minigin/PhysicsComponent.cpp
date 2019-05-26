@@ -1,9 +1,13 @@
 #include "MiniginPCH.h"
 #include "PhysicsComponent.h"
 #include "PhysicsEngine.h"
+#include "GameObject.h"
 
 kmo::PhysicsComponent::PhysicsComponent(kmo::PhysicsEngine& engine, kmo::PhysicsInput const& input) noexcept
-	: m_input(input), m_engine(engine){
+	: m_input(input)
+	, m_engine(engine)
+	, m_parent(std::ref(kmo::GameObject::GetNullGameObject()))
+{
 	m_engine.RegisterComponent(*this);
 }
 
