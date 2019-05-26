@@ -17,7 +17,7 @@ namespace digdug
 		inline void CreateFygar(kmo::Vector position = {0.f, 0.f})
 		{
 			kmo::GameObject result;
-			auto tempController{ std::make_unique<FygarController>() };
+			auto tempController{ std::make_unique<FygarController>(m_physicsEngine) };
 			auto tempPhysics{ std::make_unique<kmo::PhysicsComponent>(m_physicsEngine, tempController->GetPhysicsInputData()) };
 			tempPhysics->SetPosition(position);
 			tempPhysics->SetHitboxSide(HIT_BOX_SIDE);

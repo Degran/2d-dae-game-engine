@@ -15,4 +15,5 @@ int main()
 	kmo::Game digDug;
 	digdug::FygarFactory factory{ digDug };
 	factory.CreateFygar();
+	digDug.Loop();
 }

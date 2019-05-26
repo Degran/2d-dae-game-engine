@@ -80,6 +80,16 @@ namespace kmo
 		virtual void ListenForEvent(InputEvent const& event) = 0;
 	};
 
+	class NullInputSource final : public InputSource
+	{
+	public:
+		inline std::vector<InputEvent> GetInputEvents() override
+		{
+			return std::vector<InputEvent>();
+		}
+		inline void ListenForEvent(InputEvent const&) override{}
+	};
+
 	class InputState;
 	class InputCommand
 	{
@@ -160,11 +170,13 @@ namespace kmo
 	public:
 		InputManager(std::unique_ptr<InputState> startState)
 			: m_currentState(std::ref(*startState))
+			, m_inputSource(new NullInputSource())
 		{
 			AddInputState(std::move(startState));
 		}
 		InputManager()
-			: m_currentState(NullInputState::GetInstance()){}
+			: m_currentState(NullInputState::GetInstance())
+			, m_inputSource(new NullInputSource()){}
 		inline void ProcessInput() {
 			m_currentState.get().Update();
 			ProcessAllInputsFromSource();
