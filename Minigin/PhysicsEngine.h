@@ -45,7 +45,7 @@ namespace kmo
 			CheckCollisions();
 			ClearSnapshotCache();
 		}
-		std::shared_ptr<std::vector<ObjectSnapshot> > GetWorldSnapshot();
+		std::shared_ptr<std::vector<ObjectSnapshot> const> GetWorldSnapshot();
 		inline void ClearSnapshotCache()
 		{
 			m_snapshotCache = std::shared_ptr<std::vector<ObjectSnapshot> >(nullptr);
@@ -63,6 +63,6 @@ namespace kmo
 		std::vector<PhysicsComponent*> m_movingComponents;
 		std::vector<PhysicsComponent*> m_componentsToRemove;
 		Notifier<kmo::CollisionEvent> m_notifier;
-		std::shared_ptr<std::vector<ObjectSnapshot> > m_snapshotCache;
+		std::shared_ptr<std::vector<ObjectSnapshot> const> m_snapshotCache;
 	};
 }

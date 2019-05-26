@@ -4,18 +4,19 @@
 #include "PhysicsComponent.h"
 #include "Box.h"
 
-std::shared_ptr<std::vector<kmo::ObjectSnapshot>> kmo::PhysicsEngine::GetWorldSnapshot()
+std::shared_ptr<std::vector<kmo::ObjectSnapshot> const> kmo::PhysicsEngine::GetWorldSnapshot()
 {
 	if(m_snapshotCache.get() == nullptr)
 	{
-		m_snapshotCache = std::make_shared<std::vector<kmo::ObjectSnapshot> >();
+		auto temp{ std::make_shared<std::vector<kmo::ObjectSnapshot> >() };
 		for(PhysicsComponent* component : m_registeredComponents)
 		{
 			ObjectSnapshot snap;
 			snap.m_position = component->GetPosition();
 			snap.m_typeCode = component->m_objectTypeCode;
-			m_snapshotCache->push_back(snap);
+			temp->push_back(snap);
 		}
+		m_snapshotCache = temp;
 	}
 	return m_snapshotCache;
 }
