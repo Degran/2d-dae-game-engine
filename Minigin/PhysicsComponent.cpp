@@ -11,6 +11,11 @@ kmo::PhysicsComponent::PhysicsComponent(kmo::PhysicsEngine& engine, kmo::Physics
 	m_engine.RegisterComponent(*this);
 }
 
+kmo::PhysicsComponent::~PhysicsComponent()
+{
+	m_engine.UnRegisterComponent(*this);
+}
+
 void kmo::PhysicsComponent::Update(float deltaTime)
 {
 	if (m_input.GetVelocity().IsZero())

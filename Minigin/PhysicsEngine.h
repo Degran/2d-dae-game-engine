@@ -21,7 +21,6 @@ namespace kmo
 		}
 		inline void UnRegisterComponent(PhysicsComponent& component)
 		{
-// 			m_componentsToRemove.push_back(&component);
 			auto ptr{ std::find(m_registeredComponents.begin(), m_registeredComponents.end(), &component) };
 			if(ptr == m_registeredComponents.end())
 			{
@@ -38,22 +37,9 @@ namespace kmo
 		inline void Update(float)
 		{
 			CheckCollisions();
-// 			RemoveComponents();
 		}
 	private:
 		void CheckCollisions();
-// 		inline void RemoveComponents()
-// 		{
-// 			for(PhysicsComponent* compPtr : m_componentsToRemove)
-// 			{
-// 				auto ptr{ std::find(m_registeredComponents.begin(), m_registeredComponents.end(), compPtr) };
-// 				if(ptr == m_registeredComponents.end())
-// 				{
-// 					continue;
-// 				}
-// 				m_registeredComponents.erase(ptr);
-// 			}
-// 		}
 		void CheckCollisionsOfComponent(PhysicsComponent& component);
 		void RejectPositionUpdates(PhysicsComponent& comp1, PhysicsComponent& comp2);
 		void HandleCollisionNotification(PhysicsComponent const& comp1, PhysicsComponent const& comp2);

@@ -39,6 +39,11 @@ namespace kmo
 	class ControlComponent final
 	{
 	public:
+		static Vector const& NullPosition()
+		{
+			static Vector instance;
+			return instance;
+		}
 		inline PhysicsInput const& GetVelocity() const
 		{
 			return m_velocityData;

@@ -25,6 +25,7 @@ namespace kmo
 		PhysicsComponent(kmo::PhysicsEngine& engine, kmo::PhysicsInput const& input) noexcept;
 		PhysicsComponent(kmo::PhysicsEngine& engine) noexcept
 			: PhysicsComponent(engine, kmo::NullPhysicsInput::GetInstance()){}
+		virtual ~PhysicsComponent();
 		void Update(float deltaTime) override;
 		inline void LateUpdate(float) override
 		{

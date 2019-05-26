@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FygarController.h" />
     <ClInclude Include="FygarFactory.h" />
     <ClInclude Include="ObjectType.h" />
     <ClInclude Include="pch.h" />
