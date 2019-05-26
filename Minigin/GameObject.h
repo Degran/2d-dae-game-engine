@@ -61,6 +61,19 @@ namespace kmo
 			m_components.push_back(std::move(component));
 			component->AttachTo(*this);
 		}
+		template<class T>
+		inline std::vector<T*> GetAllComponentsOfType()
+		{
+			std::vector<T*> result;
+			for(std::unique_ptr<Component> const& unique_ptr : m_components)
+			{
+				if(typeid(*unique_ptr).hash_code() == typeid(T).hash_code())
+				{
+					result.push_back(unique_ptr.get());
+				}
+			}
+			return result;
+		}
 	private:
 		std::vector<std::unique_ptr<Component> > m_components;
 	};
