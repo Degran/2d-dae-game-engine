@@ -3,9 +3,11 @@
 #include <memory>
 #include <vector>
 #include <map>
+// #include <algorithm>
 #include "Singleton.h"
 
 #include "State.h"
+#include "Component.h"
 
 namespace dae
 {
@@ -178,6 +180,23 @@ namespace kmo
 		{
 			m_states.push_back(std::move(state));
 		}
+		inline void OwnComponent(std::unique_ptr<Component> component)
+		{
+			m_ownedComponents.push_back(std::move(component));
+		}
+		inline std::vector<Component*> GetComponents() const
+		{
+			std::vector<Component*> result(m_ownedComponents.size());
+			for(std::unique_ptr<Component> const& unique_ptr : m_ownedComponents)
+			{
+				result.push_back(unique_ptr.get());
+			}
+// 			std::for_each(m_ownedComponents.begin(), m_ownedComponents.end(), [&](std::unique_ptr<Component> const& unique_ptr)
+// 			{
+// 				result.push_back(unique_ptr.get());
+// 			});
+			return result;
+		}
 	private:
 		inline void ProcessAllInputsFromSource() const
 		{
@@ -190,5 +209,6 @@ namespace kmo
 		std::unique_ptr<InputSource> m_inputSource;
 		std::reference_wrapper<InputState> m_currentState;
 		std::vector<std::unique_ptr<InputState> > m_states;
+		std::vector<std::unique_ptr<Component> > m_ownedComponents;
 	};
 }
