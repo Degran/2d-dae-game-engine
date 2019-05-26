@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <memory>
 #include <algorithm>
 
 #include "Singleton.h"
@@ -28,7 +27,7 @@ namespace kmo
 	class SceneManager final : public dae::Singleton<SceneManager>
 	{
 	public:
-		inline void AddGameObject(std::unique_ptr<GameObject> object)
+		inline void AddGameObject(GameObject&& object)
 		{
 			m_objects.push_back(std::move(object));
 		}
@@ -39,16 +38,16 @@ namespace kmo
 		inline void Update(float deltaTime)
 		{
 			m_forRemoval.clear();
-			for(std::unique_ptr<GameObject> const& object : m_objects)
+			for(GameObject& object : m_objects)
 			{
-				object->Update(deltaTime);
+				object.Update(deltaTime);
 			}
 		}
 		inline void LateUpdate(float deltaTime)
 		{
-			for(std::unique_ptr<GameObject> const& object : m_objects)
+			for(GameObject& object : m_objects)
 			{
-				object->LateUpdate(deltaTime);
+				object.LateUpdate(deltaTime);
 			}
 			RemoveObjects();
 		}
@@ -57,12 +56,12 @@ namespace kmo
 		{
 			for(auto ptr : m_forRemoval)
 			{
-				auto equalityLambda{ [&ptr](std::unique_ptr<GameObject> const& element) { return element.get() == ptr; } };
+				auto equalityLambda{ [&ptr](GameObject const& element) { return &element == ptr; } };
 				std::remove_if(m_objects.begin(), m_objects.end(), equalityLambda);
 			}
 		}
 	private:
-		std::vector<std::unique_ptr<GameObject> > m_objects;
+		std::vector<GameObject> m_objects;
 		std::vector<GameObject const*> m_forRemoval;
 	};
 }
