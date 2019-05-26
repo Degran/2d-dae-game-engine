@@ -84,6 +84,8 @@ namespace kmo
 		{
 			m_nextPresenceBuffer = buffer;
 		}
+	public:
+		char m_objectTypeCode;
 	private:
 		PhysicalPresenceData m_currentPresenceBuffer;
 		PhysicalPresenceData m_nextPresenceBuffer;
