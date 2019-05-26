@@ -1,9 +1,13 @@
 #pragma once
 #include <chrono>
+#include <thread>
+#include <memory>
+#include <vector>
+#include <algorithm>
 
 #include "InputManager.h"
 #include "PhysicsEngine.h"
-#include <thread>
+#include "Component.h"
 
 namespace kmo
 {
@@ -50,22 +54,32 @@ namespace kmo
 		}
 		inline void PerformFixedTimeUpdate()
 		{
-			// m_looseComponents.Update(...)
+			for (std::unique_ptr<Component> const& unique : m_looseComponents) { unique->Update(m_updateDeltaTime.count()); }
 			// SceneManager.Update(...)
 			m_physicsEngine.Update(m_updateDeltaTime.count());
-			// m_looseComponents.LateUpdate(...)
+			for (std::unique_ptr<Component> const& unique : m_looseComponents) { unique->LateUpdate(m_updateDeltaTime.count()); }
 			// SceneManager.LateUpdate(...)
 		}
 		inline void SetMinimumFeasibleUpdateFps(float fps)
 		{
 			m_updateDeltaTime = std::chrono::duration<float, std::ratio<1, 1> >(1.f / fps);
 		}
+		inline void AddLooseComponent(std::unique_ptr<Component> component)
+		{
+			m_looseComponents.push_back(std::move(component));
+		}
+		inline void RemoveLooseComponent(Component const& component)
+		{
+			auto equalityLambda{ [&component](std::unique_ptr<Component> const& element) {return &component == element.get(); } };
+			std::remove_if(m_looseComponents.begin(), m_looseComponents.end(), equalityLambda);
+		}
+		
 	private:
 		InputManager m_inputManager;
 		PhysicsEngine m_physicsEngine;
 		// Renderer
 		// SceneManager
-		// m_looseComponents
+		std::vector<std::unique_ptr<Component> > m_looseComponents;
 
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_previousStartTime;
 		std::chrono::duration<float, std::ratio<1, 1> > m_updateDeltaTime{ 1.f / 60.f };
