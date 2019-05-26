@@ -34,7 +34,7 @@ namespace kmo
 				PerformFixedTimeUpdate();
 				m_lag -= m_updateDeltaTime;
 			}
-			float frameInterpolationRatio{ m_lag / m_updateDeltaTime };
+// 			float frameInterpolationRatio{ m_lag / m_updateDeltaTime };
 			// Renderer.Render(frameInterpolationRatio)
 		}
 		inline void UpdateLag()
