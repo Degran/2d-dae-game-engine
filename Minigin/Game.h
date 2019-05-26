@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "PhysicsEngine.h"
 #include "Component.h"
+#include "SceneManager.h"
 
 namespace kmo
 {
@@ -55,10 +56,10 @@ namespace kmo
 		inline void PerformFixedTimeUpdate()
 		{
 			for (std::unique_ptr<Component> const& unique : m_looseComponents) { unique->Update(m_updateDeltaTime.count()); }
-			// SceneManager.Update(...)
+			m_sceneManager.Update(m_updateDeltaTime.count());
 			m_physicsEngine.Update(m_updateDeltaTime.count());
 			for (std::unique_ptr<Component> const& unique : m_looseComponents) { unique->LateUpdate(m_updateDeltaTime.count()); }
-			// SceneManager.LateUpdate(...)
+			m_sceneManager.LateUpdate(m_updateDeltaTime.count());
 		}
 		inline void SetMinimumFeasibleUpdateFps(float fps)
 		{
@@ -74,11 +75,12 @@ namespace kmo
 			std::remove_if(m_looseComponents.begin(), m_looseComponents.end(), equalityLambda);
 		}
 		
-	private:
+	public:
 		InputManager m_inputManager;
 		PhysicsEngine m_physicsEngine;
 		// Renderer
-		// SceneManager
+		SceneManager m_sceneManager;
+	private:
 		std::vector<std::unique_ptr<Component> > m_looseComponents;
 
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_previousStartTime;
